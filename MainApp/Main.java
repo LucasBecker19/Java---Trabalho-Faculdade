@@ -48,24 +48,36 @@ Departamento dep = new Departamento();
 				dep = setDepartamento(dass,daltec,damm,dacc,daeln);
 
 			switch(menu) {
-				case "Cadastrar novo professor": //OK
-					addProf(dep);
-					break;
-				case "Remover Professor":        //OK
-					rmProf(dep);
-					break;
-				case "Lista de Professores":     //OK
-					printList(dep);
-					break;
-				case "Relatório Professor":      //OK
-					printProf(dep);
-					break;
-				case "Sair":                     //OK
-					System.exit(0);
-					break;
+				case "Cadastrar novo professor": addProf(dep); break; //OK
+				case "Remover Professor": rmProf(dep); break; //OK
+				case "Lista de Professores": printList(dep); break; //OK
+				case "Relatório Professor": printProf(dep); break; //OK
+				case "Calcular Salário": calcularSalario(dep); break; //OK
+				case "Sair": System.exit(0); break; //OK
 			}
 			System.out.println("--------------------------------------------\n");
 		}while(menu!="Sair");
+	}
+
+	private static void calcularSalario(Departamento dep) throws ProfessorException {
+		double adicional,desconto;
+    	String nome = JOptionPane.showInputDialog("Nome do professor para calcular salário: " );
+		Professor professor = dep.getPorNome(nome);
+
+		if (professor != null){
+			int input = JOptionPane.showConfirmDialog(null, "Deseja inserir adicionais ou descontos? ");
+			// 0=sim, 1=não, 2=cancelar
+			if (input==0) {
+				adicional = Double.parseDouble(JOptionPane.showInputDialog("Digite o valor adicional: R$"));
+				desconto = Double.parseDouble(JOptionPane.showInputDialog("Digite o valor do desconto: R$"));
+				JOptionPane.showMessageDialog(null,"Salário: R$"+professor.calcularSalario(adicional,desconto));
+			}
+			else if (input==1)
+				JOptionPane.showMessageDialog(null,"Salário: R$"+professor.calcularSalario());
+
+		} else{
+			JOptionPane.showMessageDialog(null,"Professor não encontrado");
+		}
 	}
 
 	private static Departamento setDepartamento(Departamento dass, Departamento daltec, Departamento damm, Departamento dacc, Departamento daeln) {
@@ -168,13 +180,13 @@ Departamento dep = new Departamento();
 	}
 
 	public static String menu(){
-		Object[] abrirMenu = {"Cadastrar novo professor","Remover Professor","Lista de Professores","Relatório Professor","Sair"};
+		Object[] abrirMenu = {"Cadastrar novo professor","Remover Professor","Lista de Professores","Relatório Professor","Calcular Salário","Sair"};
 		Object respMenu;
 
 		respMenu = JOptionPane.showInputDialog(null,"Escolha uma opção","Seleção de itens",
 				JOptionPane.PLAIN_MESSAGE,null,abrirMenu,"");
 
 		return respMenu.toString();
-	}
+		}
 
 }

@@ -2,6 +2,8 @@ package Model;
 
 import Exceptions.ProfessorException;
 
+import javax.swing.*;
+
 public class Substituto extends Professor{
     private static double valorHoraAula;
     private double qtdHorasTrabalhadasMensal;
@@ -40,6 +42,9 @@ public class Substituto extends Professor{
     //MÉTODOS
     @Override
     public double calcularSalario(double adicional, double descontos) throws ProfessorException {
+        if(adicional<0 || descontos<0){
+            throw new ProfessorException();
+        }
         return (qtdHorasTrabalhadasMensal * valorHoraAula) + adicional - descontos;
     }
 

@@ -10,10 +10,13 @@ public class Concursado extends Professor {
     private double calcularRetribuicao() throws ProfessorException{
         if(this.getTitulacao().equals("Graduado"))
             this.setRetribuicaoTitulacao(this.salarioBase*0);
+
         else if(this.getTitulacao().equals("Especialista"))
             this.setRetribuicaoTitulacao(this.salarioBase*0.1);
+
         else if(this.getTitulacao().equals("Mestre"))
             this.setRetribuicaoTitulacao(this.salarioBase*0.15);
+
         else if(this.getTitulacao().equals("Doutor"))
             this.setRetribuicaoTitulacao(this.salarioBase*0.4);
 
