@@ -71,7 +71,7 @@ public class Concursado extends Professor {
 
     @Override
     public double calcularSalario(double adicional, double descontos) throws ProfessorException {
-        if (adicional >= 0 && descontos >= 0)
+        if (adicional >= 0 && descontos >= 0 && this.salarioBase>=0 && this.calcularRetribuicao()>=0 && this.planoSaude>=0)
             return this.salarioBase + this.calcularRetribuicao() + this.planoSaude + adicional - descontos;
         else
             throw new ProfessorException();

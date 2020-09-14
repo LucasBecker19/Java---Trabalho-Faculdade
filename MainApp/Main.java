@@ -101,11 +101,16 @@ public class Main {
 		int input=0; Boolean valid;
 		do {
 			try {
-				input = Integer.parseInt(JOptionPane.showInputDialog(msg));
 				valid=true;
+				input = Integer.parseInt(JOptionPane.showInputDialog(msg));
+				if(input<0)
+					throw new ProfessorException();
 			} catch (NumberFormatException exc) {
 				valid=false;
 				JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico");
+			} catch (ProfessorException e) {
+				valid=false;
+				JOptionPane.showMessageDialog(null,e.negativeValue());
 			}
 		}while(valid==false);
 		return input;
@@ -114,11 +119,16 @@ public class Main {
 		double input=0; Boolean valid;
 		do {
 			try {
-				input = Double.parseDouble(JOptionPane.showInputDialog(msg));
 				valid=true;
+				input = Double.parseDouble(JOptionPane.showInputDialog(msg));
+				if(input<0)
+					throw new ProfessorException();
 			} catch (NumberFormatException exc) {
 				valid=false;
 				JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico");
+			} catch (ProfessorException e) {
+				valid=false;
+				JOptionPane.showMessageDialog(null,e.negativeValue());
 			}
 		}while(valid==false);
 		return input;

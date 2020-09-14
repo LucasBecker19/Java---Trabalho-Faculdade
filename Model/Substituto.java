@@ -42,7 +42,7 @@ public class Substituto extends Professor{
     //MÉTODOS
     @Override
     public double calcularSalario(double adicional, double descontos) throws ProfessorException {
-            if (adicional >= 0 && descontos >= 0)
+            if (adicional >= 0 && descontos >= 0 && this.qtdHorasTrabalhadasMensal>=0)
                 return (qtdHorasTrabalhadasMensal * valorHoraAula) + adicional - descontos;
             else
                 throw new ProfessorException();
