@@ -24,7 +24,7 @@ public class Main {
 		Departamento daltec = new Departamento("DALTEC","Linguagem, Tecnologia, Educação e Ciência");
 		Departamento damm = new Departamento("DAMM","Metal-Mecânica");
 		Departamento dacc = new Departamento("DACC","Construção Civil");
-		Departamento daeln = new Departamento("DAELN","Acadêmico de Eletrônica");
+		Departamento daeln = new Departamento("DAELN","Eletrônica");
 
 		//PROFESSORES - ok
 		Professor prof1 = new Concursado(123,"Carlos da Silva","Graduado", manoelCoelho, dass, 5000, 400);
@@ -79,7 +79,7 @@ public class Main {
 	private static void printProf(Departamento dep) {
 			RelatorioProfessor relatorio = new RelatorioProfessor();
 
-			String nome = JOptionPane.showInputDialog(null, "Nome do professor para imprimir folha: ");
+			String nome = inputString("Nome do professor para imprimir folha: ");
 			Professor professor = dep.getPorNome(nome);
 
 			try {
@@ -89,12 +89,52 @@ public class Main {
 					throw new ProfessorException();
 				}
 			} catch (ProfessorException exc) {
-				JOptionPane.showMessageDialog(null, "Erro: " + exc.profNotFound());
+				JOptionPane.showMessageDialog(null,  exc.profNotFound());
 			}
 	}
 
 	private static void printList(Departamento dep) {
     	dep.imprimirListaProfessores();
+	}
+
+	public static int inputInt(String msg){
+		int input=0; Boolean valid;
+		do {
+			try {
+				input = Integer.parseInt(JOptionPane.showInputDialog(msg));
+				valid=true;
+			} catch (NumberFormatException exc) {
+				valid=false;
+				JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico");
+			}
+		}while(valid==false);
+		return input;
+	}
+	public static double inputDouble(String msg){
+		double input=0; Boolean valid;
+		do {
+			try {
+				input = Double.parseDouble(JOptionPane.showInputDialog(msg));
+				valid=true;
+			} catch (NumberFormatException exc) {
+				valid=false;
+				JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico");
+			}
+		}while(valid==false);
+		return input;
+	}
+	private static String inputString(String msg){
+    	String input;Boolean valid;
+		do {
+			input = JOptionPane.showInputDialog(msg);
+			if (input.length()!=0)
+				valid=true;
+				else{
+					JOptionPane.showMessageDialog(null,"Erro: Você precisa preencher este campo");
+					valid=false;
+			}
+		}while(valid==false);
+    	return input;
 	}
 
 	private static void addProf(Departamento dep) {
@@ -111,16 +151,17 @@ public class Main {
 		if(resp.toString()=="Concursado") professor = new Concursado();
 		else if(resp.toString()=="Substituto") professor = new Substituto();
 
-		professor.setMatricula(Integer.parseInt(JOptionPane.showInputDialog("Matrícula")));
-		professor.setNome(JOptionPane.showInputDialog("Nome"));
+		//professor.setMatricula(Integer.parseInt(JOptionPane.showInputDialog("Matrícula")));
+		professor.setMatricula(inputInt("Matrícula"));
+		professor.setNome(inputString("Nome"));
 		professor.setDepartamento(dep);
 		professor.setTitulacao(titulacao.toString());
 		if(resp.toString()=="Concursado"){
-			((Concursado)professor).setSalarioBase(Double.parseDouble(JOptionPane.showInputDialog("Salário Base (R$)")));
-			((Concursado)professor).setPlanoSaude(Double.parseDouble(JOptionPane.showInputDialog("Plano de Saúde (R$)")));
+			((Concursado)professor).setSalarioBase(inputDouble("Salário Base (R$)"));
+			((Concursado)professor).setPlanoSaude(inputDouble("Plano de Saúde (R$)"));
 		}
 		else if (resp.toString()=="Substituto")
-			((Substituto) professor).setQtdHorasTrabalhadasMensal(Double.parseDouble(JOptionPane.showInputDialog("Quantidade de Horas Trabalhadas")));
+			((Substituto) professor).setQtdHorasTrabalhadasMensal(inputInt("Quantidade de Horas Trabalhadas"));
 
 		professor.setEndereco(addEndereco());
 
@@ -129,8 +170,8 @@ public class Main {
 		if(input==0){
 			Boolean valid;
 			do {
-				professor.setAdicional(Double.parseDouble(JOptionPane.showInputDialog("Digite o valor adicional R$")));
-				professor.setDesconto(Double.parseDouble(JOptionPane.showInputDialog("Digite o valor do desconto R$")));
+				professor.setAdicional(inputDouble("Digite o valor adicional R$"));
+				professor.setDesconto(inputDouble("Digite o valor do desconto R$"));
 				try {
 					professor.calcularSalario(professor.getAdicional(), professor.getDesconto());
 					valid=true;
@@ -151,7 +192,7 @@ public class Main {
 	}
 
 	private static void rmProf(Departamento dep) throws DepartamentoException {
-			String nome = JOptionPane.showInputDialog("Digite o nome do professor que deseja excluir: ");
+			String nome = inputString("Digite o nome do professor que deseja excluir: ");
 			Professor professor = dep.getPorNome(nome);
 
 			try {
@@ -169,9 +210,9 @@ public class Main {
 
 	private static Endereco addEndereco() {
 		Endereco endereco = new Endereco();
-		endereco.setLogradouro(JOptionPane.showInputDialog("Adicionando novo endereço...\n\nLogradouro"));
-		endereco.setNumero(Integer.parseInt(JOptionPane.showInputDialog("Número")));
-		endereco.setComplemento(JOptionPane.showInputDialog("Complemento"));
+		endereco.setLogradouro(inputString("Adicionando novo endereço...\n\nLogradouro"));
+		endereco.setNumero(inputInt("Número"));
+		endereco.setComplemento(inputString("Complemento"));
 		JOptionPane.showMessageDialog(null,"Endereço adicionado com sucesso");
 		endereco.setCidade(addCidade());
 		return endereco;
@@ -179,9 +220,9 @@ public class Main {
 
 	private static Cidade addCidade() {
 		Cidade cidade = new Cidade();
-		cidade.setId(Integer.parseInt(JOptionPane.showInputDialog("Adicionando nova cidade...\n\nID da Cidade")));
-		cidade.setNome(JOptionPane.showInputDialog("Nome da Cidade"));
-		cidade.setUf(JOptionPane.showInputDialog("UF"));
+		cidade.setId(inputInt("Adicionando nova cidade...\n\nID da Cidade"));
+		cidade.setNome(inputString("Nome da Cidade"));
+		cidade.setUf(inputString("UF"));
 		JOptionPane.showMessageDialog(null, "Cidade adicionada com sucesso");
 		return cidade;
     }
@@ -195,4 +236,6 @@ public class Main {
 
 		return respMenu.toString();
     }
+
+
 }
