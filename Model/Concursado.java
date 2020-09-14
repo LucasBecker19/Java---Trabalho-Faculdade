@@ -9,34 +9,18 @@ public class Concursado extends Professor {
     private double retribuicaoTitulacao;
     private double planoSaude;
 
-    private double calcularRetribuicao() throws ProfessorException{
-        if(this.getTitulacao().equals("Graduado"))
-            this.setRetribuicaoTitulacao(this.salarioBase*0);
-
-        else if(this.getTitulacao().equals("Especialista"))
-            this.setRetribuicaoTitulacao(this.salarioBase*0.1);
-
-        else if(this.getTitulacao().equals("Mestre"))
-            this.setRetribuicaoTitulacao(this.salarioBase*0.15);
-
-        else if(this.getTitulacao().equals("Doutor"))
-            this.setRetribuicaoTitulacao(this.salarioBase*0.4);
-
-            return retribuicaoTitulacao;
-    }
-
     //CONSTRUTORES
     public Concursado() {
     }
 
-    public Concursado(int matricula,String nome,String titulacao, Endereco endereco, Departamento departamento, double salarioBase, double planoSaude) throws ProfessorException {
+    public Concursado(int matricula,String nome,String titulacao, Endereco endereco, Departamento departamento, double salarioBase, double planoSaude) {
         this.setMatricula(matricula);
         this.setNome(nome);
         this.setTitulacao(titulacao);
         this.setEndereco(endereco);
         this.setDepartamento(departamento);
         this.salarioBase = salarioBase;
-        this.retribuicaoTitulacao = calcularRetribuicao(); //isso pode dar mt problema eu acho
+        this.retribuicaoTitulacao = calcularRetribuicao();
         this.planoSaude = planoSaude;
         this.getDepartamento().addProfessor(this);
     }
@@ -67,13 +51,34 @@ public class Concursado extends Professor {
     }
 
     //MÉTODOS
-    @Override
-    public double calcularSalario(double adicional, double descontos) throws ProfessorException {
-        return this.salarioBase + this.calcularRetribuicao() + this.planoSaude + adicional - descontos;
+
+    //Não coloquei throws ProfessorException pois no meu main é impossível selecionar uma titulação errada
+    private double calcularRetribuicao() {
+        if(this.getTitulacao().equals("Graduado"))
+            this.setRetribuicaoTitulacao(this.salarioBase*0);
+
+        else if(this.getTitulacao().equals("Especialista"))
+            this.setRetribuicaoTitulacao(this.salarioBase*0.1);
+
+        else if(this.getTitulacao().equals("Mestre"))
+            this.setRetribuicaoTitulacao(this.salarioBase*0.15);
+
+        else if(this.getTitulacao().equals("Doutor"))
+            this.setRetribuicaoTitulacao(this.salarioBase*0.4);
+
+        return retribuicaoTitulacao;
     }
 
     @Override
-    public double calcularSalario() throws ProfessorException {
-        return this.salarioBase + this.calcularRetribuicao() + this.planoSaude;
+    public double calcularSalario(double adicional, double descontos) throws ProfessorException {
+        if (adicional >= 0 && descontos >= 0)
+            return this.salarioBase + this.calcularRetribuicao() + this.planoSaude + adicional - descontos;
+        else
+            throw new ProfessorException();
+    }
+
+    @Override
+    public double calcularSalario() {
+        return this.salarioBase + calcularRetribuicao() + this.planoSaude;
     }
 }

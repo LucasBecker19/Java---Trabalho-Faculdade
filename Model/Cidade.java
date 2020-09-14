@@ -8,8 +8,6 @@ public class Cidade {
     private int id;
     private String nome;
     private String uf;
-    private List<Endereco> listaEnderecos = new ArrayList<>();
-
 
     //CONSTRUTORES
     public Cidade() {
@@ -19,20 +17,6 @@ public class Cidade {
         this.id = id;
         this.nome = nome;
         this.uf = uf;
-    }
-
-    public Cidade(int id, String nome, String uf, Endereco endereco) {
-        this.id = id;
-        this.nome = nome;
-        this.uf = uf;
-        addListaEnderecos(endereco);
-    }
-
-    public Cidade(int id, String nome, String uf, List<Endereco> endereco) {
-        this.id = id;
-        this.nome = nome;
-        this.uf = uf;
-        this.listaEnderecos = endereco;
     }
 
     //GETTERS E SETTERS
@@ -61,15 +45,6 @@ public class Cidade {
         this.uf = uf;
     }
 
-    public List<Endereco> getEndereco() {
-        return listaEnderecos;
-    }
-
-    public void setEndereco(List<Endereco> endereco) {
-        this.listaEnderecos = endereco;
-
-    }
-
     //TO STRING
     @Override
     public String toString() {
@@ -79,10 +54,4 @@ public class Cidade {
                 ", " + uf +
                 ')';
     }
-
-    //MÉTODOS
-    public void addListaEnderecos(Endereco endereco){
-        listaEnderecos.add(endereco);
-    }
-
 }

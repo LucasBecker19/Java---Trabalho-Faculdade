@@ -65,10 +65,7 @@ public class Departamento {
     //TO STRING
     @Override
     public String toString() {
-        return "Departamento{" +
-                "nome='" + nome + '\'' +
-                ", area='" + area + '\'' +
-                '}';
+        return "Departamento(" + "Nome = " + nome + ", Área = " + area + ")";
     }
 
     //MÉTODOS
@@ -81,7 +78,7 @@ public class Departamento {
         listaProfessores.remove(professor);
     }
 
-    public void imprimirListaProfessores() throws ProfessorException {
+    public void imprimirListaProfessores() {
         String s="";
         for(Professor professor:listaProfessores){
             RelatorioProfessor relatorio = new RelatorioProfessor();

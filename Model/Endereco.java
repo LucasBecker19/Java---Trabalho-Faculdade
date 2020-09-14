@@ -11,12 +11,6 @@ public class Endereco {
 
     }
 
-    public Endereco(String logradouro, int numero, String complemento) {
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-    }
-
     public Endereco(String logradouro, int numero, String complemento, Cidade cidade) {
         this.logradouro = logradouro;
         this.numero = numero;

@@ -3,10 +3,9 @@ package Exceptions;
 import javax.swing.*;
 
 public class DepartamentoException extends Exception{
-    public DepartamentoException(){
+    public DepartamentoException(){ }
 
-    }
-    public DepartamentoException(String msg){
-        super(msg);
+    public String profNotFound(){
+        return "Erro: Professor não encontrado";
     }
 }
