@@ -12,9 +12,9 @@ public class Main {
 
     	//ENDERECOS - ok
 		Cidade floripa = new Cidade(1,"Florianópolis","SC");
-		Endereco manoelCoelho = new Endereco("Rua manoel coelho",110,"--",floripa);
+		Endereco manoelCoelho = new Endereco("Rua Manoel Coelho",110,"--",floripa);
 		Endereco bonifacio = new Endereco("Rua Bonifácio",250,"--",floripa);
-		Endereco paraiso = new Endereco("Rua paraiso",103,"--",floripa);
+		Endereco paraiso = new Endereco("Rua Paraíso",103,"--",floripa);
 		Endereco europa = new Endereco("Rua Europa",56,"--",floripa);
 		Endereco servidao = new Endereco("Rua Servidão",41,"--",floripa);
 		Endereco itapiranga = new Endereco("Rua Itapiranga",58,"--",floripa);
@@ -166,7 +166,7 @@ public class Main {
 			}
 
 	}
-//verificar se lista de enderecos ta vinculada na cidade, ou se ja foi feita
+
 	private static Endereco addEndereco() {
 		Endereco endereco = new Endereco();
 		endereco.setLogradouro(JOptionPane.showInputDialog("Adicionando novo endereço...\n\nLogradouro"));
@@ -186,7 +186,6 @@ public class Main {
 		return cidade;
     }
 
-
 	public static String menu(){
 		Object[] abrirMenu = {"Cadastrar novo professor","Remover Professor","Lista de Professores","Relatório Professor","Sair"};
 		Object respMenu;
@@ -195,5 +194,5 @@ public class Main {
 				JOptionPane.PLAIN_MESSAGE,null,abrirMenu,"");
 
 		return respMenu.toString();
-		}
+    }
 }

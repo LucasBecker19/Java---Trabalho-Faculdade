@@ -58,6 +58,6 @@ public class Endereco {
                 logradouro +
                 ", " + numero +
                 "), (Complemento = " + complemento +
-                ")" + cidade;
+                ")," + cidade;
     }
 }
