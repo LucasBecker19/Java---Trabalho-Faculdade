@@ -60,11 +60,10 @@ public class Endereco {
     //TO STRING
     @Override
     public String toString() {
-        return "Endereco{" +
-                "logradouro='" + logradouro + '\'' +
-                ", numero=" + numero +
-                ", complemento='" + complemento + '\'' +
-                ", cidade=" + cidade +
-                '}';
+        return "Endereco = (" +
+                logradouro +
+                ", " + numero +
+                "), (Complemento = " + complemento +
+                ")" + cidade;
     }
 }

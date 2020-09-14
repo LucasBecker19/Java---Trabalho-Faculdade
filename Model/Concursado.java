@@ -2,6 +2,8 @@ package Model;
 
 import Exceptions.ProfessorException;
 
+import javax.swing.*;
+
 public class Concursado extends Professor {
     private double salarioBase;
     private double retribuicaoTitulacao;

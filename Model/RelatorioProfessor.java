@@ -5,8 +5,8 @@ import Exceptions.ProfessorException;
 import javax.swing.*;
 
 public class RelatorioProfessor {
-   public void imprimirFolha(Professor professor) throws ProfessorException {
-        try {
+   //Escolhi retornar String ao invés de void para poder imprimir a lista de professores adequadamente com JOptionPane.
+   public String imprimirFolha(Professor professor, Boolean list) throws ProfessorException {
             StringBuilder sb = new StringBuilder();
 
             if (professor instanceof Substituto)
@@ -27,10 +27,17 @@ public class RelatorioProfessor {
                 sb.append("Valor Hora Aula: R$").append(((Substituto) professor).getValorHoraAula()).append("\n");
                 sb.append("Quantidade de horas tabalhadas (mensal)").append(((Substituto) professor).getQtdHorasTrabalhadasMensal()).append("\n");
             }
-            sb.append("Salário calculado: ").append(professor.calcularSalario()).append("\n");
-            System.out.println(sb.toString());
-        } catch (ProfessorException exc){
-            throw new ProfessorException(exc.getMessage());//verificar se ta certo
-        }
-    }
+
+            if(professor.getAdicional()!=0 || professor.getDesconto()!=0 )
+                sb.append("Salário calculado: ").append(professor.calcularSalario(professor.getAdicional(),professor.getDesconto())).append("\n");
+            else
+                sb.append("Salário calculado: ").append(professor.calcularSalario()).append("\n\n");
+
+            if(list==true)
+                return sb.toString();
+            else
+                JOptionPane.showMessageDialog(null,sb.toString());
+
+            return null;
+   }
 }

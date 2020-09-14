@@ -10,16 +10,14 @@ public class Main {
 
     public static void main(String[] args) throws DepartamentoException, ProfessorException {
 
-    	//MAIN DE TESTES
-
     	//ENDERECOS - ok
 		Cidade floripa = new Cidade(1,"Florianópolis","SC");
-		Endereco manoelCoelho = new Endereco("Rua manoel coelho",110,"--",floripa);
-		Endereco bonifacio = new Endereco("Rua Bonifácio",250,"--",floripa);
-		Endereco paraiso = new Endereco("Rua paraiso",103,"--",floripa);
-		Endereco europa = new Endereco("Rua Europa",56,"--",floripa);
-		Endereco servidao = new Endereco("Rua Servidão",41,"--",floripa);
-		Endereco itapiranga = new Endereco("Rua Itapiranga",58,"--",floripa);
+		Endereco manoelCoelho = new Endereco("Rua manoel coelho",110,"--",floripa); floripa.addListaEnderecos(manoelCoelho);
+		Endereco bonifacio = new Endereco("Rua Bonifácio",250,"--",floripa); floripa.addListaEnderecos(bonifacio);
+		Endereco paraiso = new Endereco("Rua paraiso",103,"--",floripa); floripa.addListaEnderecos(paraiso);
+		Endereco europa = new Endereco("Rua Europa",56,"--",floripa); floripa.addListaEnderecos(europa);
+		Endereco servidao = new Endereco("Rua Servidão",41,"--",floripa); floripa.addListaEnderecos(servidao);
+		Endereco itapiranga = new Endereco("Rua Itapiranga",58,"--",floripa); floripa.addListaEnderecos(itapiranga);
 
 		//DEPARTAMENTOS - ok
 		Departamento dass = new Departamento("DASS","Saúde e Serviços");
@@ -37,47 +35,31 @@ public class Main {
 		Substituto.setValorHoraAula(40);
 		Professor prof5 = new Substituto(789,"Lucas Pereira","Graduado", servidao, dacc, 160);
 		Professor prof6 = new Substituto(568,"Francieli Peixoto","Especialista", itapiranga, daeln,160);
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-String menu;
-Departamento dep = new Departamento();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		String menu;
+		Departamento dep = new Departamento();
 
 		do{
 			menu = menu();
 
 			if(menu!="Sair")
 				dep = setDepartamento(dass,daltec,damm,dacc,daeln);
+			if(menu=="Lista de Endereços")
+				//cid = setCidade();
 
 			switch(menu) {
 				case "Cadastrar novo professor": addProf(dep); break; //OK
 				case "Remover Professor": rmProf(dep); break; //OK
 				case "Lista de Professores": printList(dep); break; //OK
 				case "Relatório Professor": printProf(dep); break; //OK
-				case "Calcular Salário": calcularSalario(dep); break; //OK
+				case "Lista de Endereços": listEnderecos(); //NOT YET
 				case "Sair": System.exit(0); break; //OK
 			}
-			System.out.println("--------------------------------------------\n");
 		}while(menu!="Sair");
 	}
 
-	private static void calcularSalario(Departamento dep) throws ProfessorException {
-		double adicional,desconto;
-    	String nome = JOptionPane.showInputDialog("Nome do professor para calcular salário: " );
-		Professor professor = dep.getPorNome(nome);
+	private static void listEnderecos() {
 
-		if (professor != null){
-			int input = JOptionPane.showConfirmDialog(null, "Deseja inserir adicionais ou descontos? ");
-			// 0=sim, 1=não, 2=cancelar
-			if (input==0) {
-				adicional = Double.parseDouble(JOptionPane.showInputDialog("Digite o valor adicional: R$"));
-				desconto = Double.parseDouble(JOptionPane.showInputDialog("Digite o valor do desconto: R$"));
-				JOptionPane.showMessageDialog(null,"Salário: R$"+professor.calcularSalario(adicional,desconto));
-			}
-			else if (input==1)
-				JOptionPane.showMessageDialog(null,"Salário: R$"+professor.calcularSalario());
-
-		} else{
-			JOptionPane.showMessageDialog(null,"Professor não encontrado");
-		}
 	}
 
 	private static Departamento setDepartamento(Departamento dass, Departamento daltec, Departamento damm, Departamento dacc, Departamento daeln) {
@@ -104,11 +86,12 @@ Departamento dep = new Departamento();
 	private static void printProf(Departamento dep) throws ProfessorException {
     	RelatorioProfessor relatorio = new RelatorioProfessor();
 
-		String nome = JOptionPane.showInputDialog("Nome do professor para imprimir folha: " );
+		String nome = JOptionPane.showInputDialog(null,"Nome do professor para imprimir folha: ");
 		Professor professor = dep.getPorNome(nome);
 
+
 		if (professor != null){
-			relatorio.imprimirFolha(professor);
+			relatorio.imprimirFolha(professor,false);
 		} else{
 			JOptionPane.showMessageDialog(null,"Professor não encontrado");
 		}
@@ -118,7 +101,7 @@ Departamento dep = new Departamento();
     	dep.imprimirListaProfessores();
 	}
 
-	private static void addProf(Departamento dep){
+	private static void addProf(Departamento dep) throws ProfessorException{
 		Object[] opcoes = {"Concursado","Substituto"}; Object resp;
 		resp = JOptionPane.showInputDialog(null,"Escolha o Tipo de professor",
 				"Seleção de itens", JOptionPane.PLAIN_MESSAGE,null,opcoes,"");
@@ -146,9 +129,21 @@ Departamento dep = new Departamento();
 			professor.setTitulacao(titulacao.toString());
 			((Substituto) professor).setQtdHorasTrabalhadasMensal(Double.parseDouble(JOptionPane.showInputDialog("Quantidade de Horas Trabalhadas")));
 		}
-
 		professor.setEndereco(addEndereco());
+
+		int input = JOptionPane.showConfirmDialog(null,"Deseja inserir adicional/desconto no salário deste professor?");
+		//0==sim, 1==nao, 2==cancelar
+		if(input==0){
+			professor.setAdicional(Double.parseDouble(JOptionPane.showInputDialog("Digite o valor adicional R$")));
+			professor.setDesconto(Double.parseDouble(JOptionPane.showInputDialog("Digite o valor do desconto R$")));
+		}
+		else{
+			professor.setAdicional(0);
+			professor.setDesconto(0);
+		}
 		dep.addProfessor(professor);
+		JOptionPane.showMessageDialog(null,"Professor adicionado com sucesso");
+
 	}
 
 	private static void rmProf(Departamento dep) throws DepartamentoException {
@@ -157,30 +152,34 @@ Departamento dep = new Departamento();
 
 		if (professor != null){
 			dep.removeProfessor(professor);
+			JOptionPane.showMessageDialog(null,"Professor removido com sucesso");
 		} else{
 			JOptionPane.showMessageDialog(null,"Professor não encontrado");
 		}
+
 	}
 //verificar se lista de enderecos ta vinculada na cidade, ou se ja foi feita
 	private static Endereco addEndereco() {
 		Endereco endereco = new Endereco();
-		endereco.setLogradouro(JOptionPane.showInputDialog("Logradouro"));
+		endereco.setLogradouro(JOptionPane.showInputDialog("Adicionando novo endereço...\n\nLogradouro"));
 		endereco.setNumero(Integer.parseInt(JOptionPane.showInputDialog("Número")));
 		endereco.setComplemento(JOptionPane.showInputDialog("Complemento"));
 		endereco.setCidade(addCidade());
+		JOptionPane.showMessageDialog(null,"Endereço adicionado com sucesso");
 		return endereco;
 	}
 
 	private static Cidade addCidade(){
 		Cidade cidade = new Cidade();
-		cidade.setId(Integer.parseInt(JOptionPane.showInputDialog("ID")));
-		cidade.setNome(JOptionPane.showInputDialog("Nome"));
+		cidade.setId(Integer.parseInt(JOptionPane.showInputDialog("ID da Cidade")));
+		cidade.setNome(JOptionPane.showInputDialog("Nome da Cidade"));
 		cidade.setUf(JOptionPane.showInputDialog("UF"));
+		JOptionPane.showMessageDialog(null,"Cidade adicionada com sucesso");
 		return cidade;
 	}
 
 	public static String menu(){
-		Object[] abrirMenu = {"Cadastrar novo professor","Remover Professor","Lista de Professores","Relatório Professor","Calcular Salário","Sair"};
+		Object[] abrirMenu = {"Cadastrar novo professor","Remover Professor","Lista de Professores","Relatório Professor","Sair"};
 		Object respMenu;
 
 		respMenu = JOptionPane.showInputDialog(null,"Escolha uma opção","Seleção de itens",
@@ -188,5 +187,4 @@ Departamento dep = new Departamento();
 
 		return respMenu.toString();
 		}
-
 }

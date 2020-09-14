@@ -9,6 +9,24 @@ public abstract class Professor implements IProfessor{
     private String titulacao;
     private Endereco endereco;
     private Departamento departamento;
+    private double desconto;
+    private double adicional;
+
+    public double getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(double desconto) {
+        this.desconto = desconto;
+    }
+
+    public double getAdicional() {
+        return adicional;
+    }
+
+    public void setAdicional(double adicional) {
+        this.adicional = adicional;
+    }
 
     public int getMatricula() {
         return matricula;

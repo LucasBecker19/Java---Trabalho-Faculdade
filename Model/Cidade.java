@@ -73,11 +73,11 @@ public class Cidade {
     //TO STRING
     @Override
     public String toString() {
-        return "Cidade{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", uf='" + uf + '\'' +
-                '}';
+        return "Cidade(" +
+                "ID " + id +
+                ", " + nome+
+                ", " + uf +
+                ')';
     }
 
     //MÉTODOS

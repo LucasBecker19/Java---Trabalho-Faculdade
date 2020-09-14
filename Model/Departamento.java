@@ -82,10 +82,12 @@ public class Departamento {
     }
 
     public void imprimirListaProfessores() throws ProfessorException {
+        String s="";
         for(Professor professor:listaProfessores){
             RelatorioProfessor relatorio = new RelatorioProfessor();
-            relatorio.imprimirFolha(professor);
+            s+=relatorio.imprimirFolha(professor,true);
         }
+        JOptionPane.showMessageDialog(null,s);
     }
 
     public Professor getPorNome(String nome) {
