@@ -86,9 +86,9 @@ public class Main {
 				if (professor != null) {
 					relatorio.imprimirFolha(professor, false);
 				} else {
-					throw new ProfessorException();
+					throw new DepartamentoException();
 				}
-			} catch (ProfessorException exc) {
+			} catch (DepartamentoException exc) {
 				JOptionPane.showMessageDialog(null,  exc.profNotFound());
 			}
 	}
@@ -97,42 +97,44 @@ public class Main {
     	dep.imprimirListaProfessores();
 	}
 
-	public static int inputInt(String msg){
-		int input=0; Boolean valid;
+	private static Number validateNumber(String msg, Class<?> type) {
+		Boolean valid;
+		Number input = 0;
 		do {
 			try {
-				valid=true;
-				input = Integer.parseInt(JOptionPane.showInputDialog(msg));
-				if(input<0)
+				if (type.equals(Double.class))
+					input = Double.parseDouble(JOptionPane.showInputDialog(msg));
+
+				else if (type.equals(Integer.class))
+					input = Integer.parseInt(JOptionPane.showInputDialog(msg));
+
+				if(input.doubleValue()<0)
 					throw new ProfessorException();
+				valid = true;
 			} catch (NumberFormatException exc) {
-				valid=false;
+				valid = false;
 				JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico");
 			} catch (ProfessorException e) {
-				valid=false;
-				JOptionPane.showMessageDialog(null,e.negativeValue());
-			}
-		}while(valid==false);
+					valid=false;
+					JOptionPane.showMessageDialog(null,e.negativeValue());
+				}
+		} while (valid == false);
 		return input;
 	}
-	public static double inputDouble(String msg){
-		double input=0; Boolean valid;
-		do {
-			try {
-				valid=true;
-				input = Double.parseDouble(JOptionPane.showInputDialog(msg));
-				if(input<0)
-					throw new ProfessorException();
-			} catch (NumberFormatException exc) {
-				valid=false;
-				JOptionPane.showMessageDialog(null, "Erro: Digite um valor numérico");
-			} catch (ProfessorException e) {
-				valid=false;
-				JOptionPane.showMessageDialog(null,e.negativeValue());
-			}
-		}while(valid==false);
-		return input;
+
+	public static double inputDouble(String msg) {
+
+		Number result = validateNumber(msg, Double.class);
+
+		return result.doubleValue();
 	}
+
+	private static Integer inputInt(String msg) {
+		Number result = validateNumber(msg, Integer.class);
+
+		return result.intValue();
+	}
+
 	private static String inputString(String msg){
     	String input;Boolean valid;
 		do {
@@ -195,7 +197,6 @@ public class Main {
 			professor.setAdicional(0);
 			professor.setDesconto(0);
 		}
-
 		dep.addProfessor(professor);
 		JOptionPane.showMessageDialog(null,"Professor adicionado com sucesso");
 
@@ -246,6 +247,4 @@ public class Main {
 
 		return respMenu.toString();
     }
-
-
 }
